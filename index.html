@@ -30,9 +30,122 @@
     </header>
     <div class="container">
       <!-- Timeblocks go here -->
+      <div id="hour-9" class="row time-block">
+        <div class="col-md-1 hour">
+          9AM
+        </div>
+        <textarea class="col-md-10 description" id="9">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-10" class="row time-block">
+        <div class="col-md-1 hour">
+          10AM
+        </div>
+        <textarea class="col-md-10 description" id="10">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-11" class="row time-block">
+        <div class="col-md-1 hour">
+          11AM
+        </div>
+        <textarea class="col-md-10 description" id="11">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-12" class="row time-block">
+        <div class="col-md-1 hour">
+          12PM
+        </div>
+        <textarea class="col-md-10 description" id="12">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-1" class="row time-block">
+        <div class="col-md-1 hour">
+          1PM
+        </div>
+        <textarea class="col-md-10 description" id="13">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-2" class="row time-block">
+        <div class="col-md-1 hour">
+          2PM
+        </div>
+        <textarea class="col-md-10 description" id="14">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-3" class="row time-block">
+        <div class="col-md-1 hour">
+          3PM
+        </div>
+        <textarea class="col-md-10 description" id="15">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-4" class="row time-block">
+        <div class="col-md-1 hour">
+          4PM
+        </div>
+        <textarea class="col-md-10 description" id="16">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
+      <div id="hour-5" class="row time-block">
+        <div class="col-md-1 hour">
+          5PM
+        </div>
+        <textarea class="col-md-10 description" id="17">
+        </textarea>
+        <button class="btn saveBtn col-md-1"><i class="fas fa-save"></i></button>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script>
+      // Wait until the document is ready
+      $(document).ready(function() {
+
+        // Get our time setup for the header, and call it once a second to provide updates.
+        function setTime() {
+          $("#currentDay").text(moment().format("LLLL"));
+        };
+
+        function updateHours() {
+
+         var militaryTime = moment().hour();
+
+         $("textarea").each(function() {
+
+           //If the current time is less than the textarea id, then it's in the future. Make it green
+           if (militaryTime < parseInt(this.id))
+            $(this).css("background-color", "Chartreuse");
+
+           // If the current time is same as the textarea id, then it's in the present. Make it red
+           if (militaryTime === parseInt(this.id))
+            $(this).css("background-color", "red");
+
+           // If the current time is greater as the textarea id, then it's in the past. Make it grey
+           if (militaryTime > parseInt(this.id))
+            $(this).css("background-color", "grey");
+
+         });
+         
+        };
+
+        // Begin the timer interval immediately, and then call setTime for the first time so it loads on page load
+        setInterval(setTime, 1000);
+        setTime();
+
+        // Update hours once, and then again over time as well
+        setInterval(updateHours, 1000);
+        updateHours();
+
+      });
+    </script>
   </body>
 </html>
