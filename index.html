@@ -110,40 +110,63 @@
       // Wait until the document is ready
       $(document).ready(function() {
 
-        // Get our time setup for the header, and call it once a second to provide updates.
+        // Get our time setup for the header
         function setTime() {
+
           $("#currentDay").text(moment().format("LLLL"));
+
         };
 
+        // Update the css colors over time
         function updateHours() {
+          
+          var militaryTime = moment().hour();
 
-         var militaryTime = moment().hour();
+          $("textarea").each(function() {
 
-         $("textarea").each(function() {
+            //If the current time is less than the textarea id, then it's in the future. Make it green
+            if (militaryTime < parseInt(this.id))
+              $(this).css("background-color", "Chartreuse");
 
-           //If the current time is less than the textarea id, then it's in the future. Make it green
-           if (militaryTime < parseInt(this.id))
-            $(this).css("background-color", "Chartreuse");
+            // If the current time is same as the textarea id, then it's in the present. Make it red
+            if (militaryTime === parseInt(this.id))
+              $(this).css("background-color", "crimson");
 
-           // If the current time is same as the textarea id, then it's in the present. Make it red
-           if (militaryTime === parseInt(this.id))
-            $(this).css("background-color", "crimson");
+            // If the current time is greater as the textarea id, then it's in the past. Make it grey
+            if (militaryTime > parseInt(this.id))
+              $(this).css("background-color", "grey");
 
-           // If the current time is greater as the textarea id, then it's in the past. Make it grey
-           if (militaryTime > parseInt(this.id))
-            $(this).css("background-color", "grey");
+          });
 
-         });
-         
+        };
+
+        // Store our data!
+        function saveData(id) {
+
+          localStorage.setItem(id, $(this).val())
+
         };
 
         // Begin the timer interval immediately, and then call setTime for the first time so it loads immediately
         setInterval(setTime, 1000);
         setTime();
 
-        // Update hours once, and then again over time as well
+        // Update hours colors once, and then again over time as well
         setInterval(updateHours, 1000);
         updateHours();
+
+        //Load the data for each timeblock from localStorage
+        $("textarea").each(function() {
+
+          $(this).val(localStorage.getItem((this.id)));
+
+        });
+
+        // Finally, the onclick functionality for each save button
+        $(".saveBtn").click(function(i) {
+          var childEl = $(this).parent().children("textarea");
+          localStorage.setItem(childEl.attr("id"), childEl.val());
+        });
 
       });
     </script>
