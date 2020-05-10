@@ -110,6 +110,9 @@
       // Wait until the document is ready
       $(document).ready(function() {
 
+        var secondsLeft;
+        var lastButtonEl;
+
         // Get our time setup for the header
         function setTime() {
 
@@ -155,7 +158,7 @@
         setInterval(updateHours, 1000);
         updateHours();
 
-        //Load the data for each timeblock from localStorage
+        // Load the data for each timeblock from localStorage
         $("textarea").each(function() {
 
           $(this).val(localStorage.getItem((this.id)));
@@ -164,8 +167,29 @@
 
         // Finally, the onclick functionality for each save button
         $(".saveBtn").click(function(i) {
+
+          lastButtonEl = $(this);
           var childEl = $(this).parent().children("textarea");
           localStorage.setItem(childEl.attr("id"), childEl.val());
+
+          // Additional functionality by turning the button green to show it saved!
+          $(this).css("background-color", "green");
+
+          // Timer interval lasts for 2 seconds
+          secondsLeft = 2;
+          var timerInterval = setInterval(function() {
+            
+            secondsLeft--;
+
+            if (secondsLeft === 0)
+            {
+              console.log(secondsLeft);
+              lastButtonEl.css("background-color", "");
+              clearInterval(timerInterval);
+            }
+          
+          }, 1000);
+
         });
 
       });
